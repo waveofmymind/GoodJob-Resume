@@ -36,6 +36,10 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
     runtimeOnly("com.mysql:mysql-connector-j")
 
+    // jasypt
+    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
+
+
     // kotest
     testImplementation("io.kotest:kotest-assertions-core-jvm:5.6.2")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:5.6.2")
