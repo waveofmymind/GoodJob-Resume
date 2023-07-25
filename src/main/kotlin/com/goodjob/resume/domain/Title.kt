@@ -6,8 +6,7 @@ import jakarta.persistence.*
 @Entity
 class Title(
     @Lob
-    @Column(columnDefinition = "TEXT")
-    private var title: String = "",
+    @Column(columnDefinition = "TEXT") var title: String = "",
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

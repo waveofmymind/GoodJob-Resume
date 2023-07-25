@@ -5,8 +5,7 @@ import jakarta.persistence.*
 @Entity
 class Content(
     @Lob
-    @Column(columnDefinition = "TEXT")
-    private var content: String = "",
+    @Column(columnDefinition = "TEXT") var content: String = "",
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
