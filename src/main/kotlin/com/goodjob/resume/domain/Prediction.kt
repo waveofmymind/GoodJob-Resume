@@ -7,9 +7,10 @@ import java.time.LocalDateTime
 @Table(name = "prediction")
 class Prediction(
 
-    @Enumerated(EnumType.STRING) val serviceType: ServiceType,
 
     private val memberId: Long,
+
+    @Enumerated(EnumType.STRING) val serviceType: ServiceType,
 
     @Embedded
     val titles: Titles = Titles(),
@@ -22,5 +23,7 @@ class Prediction(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0L
 ) {
+    val getMember: Long
+        get() = memberId
 
 }
