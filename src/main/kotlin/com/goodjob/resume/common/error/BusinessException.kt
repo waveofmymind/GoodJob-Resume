@@ -12,4 +12,10 @@ data class PredictionNotFoundException(
     override val errorCode: ErrorCode = ErrorCode.PREDICTION_NOT_FOUND
 ) : BusinessException(errorCode)
 
+data class PredictionCreateException(
+    override val errorCode: ErrorCode = ErrorCode.PREDICTION_CREATE_ERROR
+) : BusinessException(errorCode)
 
+data class ThreadMalfunctionException(
+    override val errorCode: ErrorCode = ErrorCode.INVALID_INPUT_VALUE
+) : BusinessException(errorCode)

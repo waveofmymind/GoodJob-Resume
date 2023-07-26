@@ -23,5 +23,9 @@ enum class ErrorCode(val httpStatus: HttpStatus, val message: String) {
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "권한이 없습니다."),
     EMAIL_SEND_FAIL(HttpStatus.BAD_REQUEST, "이메일 전송에 실패하였습니다."),
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "입력값이 올바르지 않습니다."),
-    PREDICTION_NOT_FOUND(HttpStatus.NOT_FOUND, "예상 답변을 찾을 수 없습니다.")
+    PREDICTION_NOT_FOUND(HttpStatus.NOT_FOUND, "예상 답변을 찾을 수 없습니다."),
+    PREDICTION_CREATE_ERROR(HttpStatus.CONFLICT, "예상 답변 생성에 실패하였습니다."),
+
+
+    THREAD_MALFUNCIOTN(HttpStatus.CONFLICT, "스레드가 정상적으로 작동하지 않습니다."),
 }
