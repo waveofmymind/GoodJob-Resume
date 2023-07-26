@@ -1,26 +1,9 @@
 spring:
-  datasource:
-    url: ENC(5oXuLDSPDNuWH/RkhfQwBr8xm4hhVZm65c83QiVFkAASNaSAYGqemGSp3fRotSkyj3iFuz92tVioxzWDkyV3VPbEr9dxx++J0TZwBvD6DGWidYfwlLT8okIw8YswTxo6PBiXx2PTFGnAMC7/PViAymcCULaLuupMB+Q97vP5vsI=)
-    username: ENC(jUcwvKowWsVxwkexQM8BRA==)
-    password: ENC(7CCqB+eaWByDHvBg02UQras7mBrA4GW8)
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-
-  kafka:
-    bootstrap-servers: ENC(Ye8D/K+6VCjeDv84YdExrcYV6cBySzV/hclr2AcjvVbA7ZPip4KYbjxbkxJIZH6m8p6Ssgd2uJm25UkethFn2g==)
-    consumer:
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
-jasypt:
-  encryptor:
-    password: ${JASYPT_PASSWORD}
-openai:
-  token: ENC(dQaDvbhWH3u2aGJyzLAj4kirMxGz8aLnmjuXo4NDQUuJEBjXUpb+AOQw1sTcDgTTVFv7ISwyrkREEM/YEhgnVg==)
+  application:
+    name: goodjob-resume
+  config:
+    import: "optional:configserver:http://43.201.132.18:8090/"
+  cloud:
+    config:
+      name: goodjob
+      profile: resume
