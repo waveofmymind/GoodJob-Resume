@@ -19,3 +19,7 @@ data class PredictionCreateException(
 data class ThreadMalfunctionException(
     override val errorCode: ErrorCode = ErrorCode.INVALID_INPUT_VALUE
 ) : BusinessException(errorCode)
+
+data class InvalidRequestException(
+    override val errorCode: ErrorCode = ErrorCode.INVALID_INPUT_VALUE
+) : BusinessException(errorCode)

@@ -6,6 +6,7 @@ import com.goodjob.resume.application.`in`.RegisterPredictionUseCase
 import com.goodjob.resume.application.out.DeletePredictionPort
 import com.goodjob.resume.application.out.FindPredictionPort
 import com.goodjob.resume.application.out.RegisterPredictionPort
+import com.goodjob.resume.common.error.InvalidRequestException
 import com.goodjob.resume.domain.Prediction
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,6 +24,9 @@ class PredictionFacade(
         val prediction = command.toEntity()
         prediction.addTitle(command.titles)
         prediction.addContent(command.contents)
+        if (prediction.titles.size != prediction.contents.size) {
+            throw InvalidRequestException()
+        }
         registerPredictionPort.registerPrediction(prediction)
     }
 
