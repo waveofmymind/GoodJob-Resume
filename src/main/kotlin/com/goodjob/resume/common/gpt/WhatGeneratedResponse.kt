@@ -6,7 +6,7 @@ import com.goodjob.resume.domain.ServiceType
 import com.goodjob.resume.domain.Titles
 
 data class WhatGeneratedQuestionResponse(
-    val predictionResponse: MutableList<PredictionResponse>
+    val predictionResponse: MutableList<PredictionResponse> = mutableListOf()
 ) {
     fun toCommand(memberId: Long): RegisterPredictionCommand {
         val titleList = predictionResponse.map { it.question }
@@ -25,7 +25,7 @@ data class WhatGeneratedQuestionResponse(
 }
 
 data class WhatGeneratedImproveResponse(
-    val improvementResponse: MutableList<ImprovementResponse>
+    val improvementResponse: MutableList<ImprovementResponse> = mutableListOf()
 ) {
     fun toCommand(memberId: Long): RegisterPredictionCommand {
         val titleList = improvementResponse.map { it.improvementPoint }
