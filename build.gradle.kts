@@ -46,6 +46,9 @@ dependencies {
     // actuator
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
+    // spring cloud openfeign
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
     // spring cloud config
     implementation("org.springframework.cloud:spring-cloud-starter-config")
 
@@ -61,6 +64,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
 }
+
 
 dependencyManagement {
     imports {
