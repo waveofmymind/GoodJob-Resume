@@ -21,13 +21,26 @@ class ResumeFacade(
         try {
             val request = objectMapper.readValue(message, CreatePromptRequest::class.java)
 
-            val response = gptService.createdExpectedQuestionAndAnswer(
+            val response = gptService.createdExpectedQuestionsAndAnswer(
                 request.job, request.career, request.resumeRequests
             )
 
             registerPredictionUseCase.registerPrediction(response.toCommand(request.memberId))
         } catch (e: Exception) {
             val request = objectMapper.readValue(message, CreatePromptRequest::class.java)
+            producerAdapter.sendError(request.memberId.toString())
+            throw PredictionCreateException()
+        }
+    }
+
+    fun generatedQuestionResponseWithTest(request: CreatePromptRequest) {
+        try {
+            val response = gptService.createdExpectedQuestionsAndAnswer(
+                request.job, request.career, request.resumeRequests
+            )
+
+            registerPredictionUseCase.registerPrediction(response.toCommand(request.memberId))
+        } catch (e: Exception) {
             producerAdapter.sendError(request.memberId.toString())
             throw PredictionCreateException()
         }

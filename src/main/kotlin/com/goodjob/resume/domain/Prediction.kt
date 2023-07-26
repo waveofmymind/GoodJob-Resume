@@ -1,5 +1,6 @@
 package com.goodjob.resume.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -7,16 +8,18 @@ import java.time.LocalDateTime
 @Table(name = "prediction")
 class Prediction(
 
-
     private val memberId: Long,
 
-    @Enumerated(EnumType.STRING) val serviceType: ServiceType,
+    @Enumerated(EnumType.STRING)
+    val serviceType: ServiceType,
 
-    @Embedded
-    val titles: Titles = Titles(),
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], mappedBy = "prediction")
+    val titles: MutableList<Title> = mutableListOf(),
 
-    @Embedded
-    val contents: Contents = Contents(),
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL], mappedBy = "prediction")
+    val contents: MutableList<Content> = mutableListOf(),
 
     val createdDate: LocalDateTime = LocalDateTime.now(),
 
@@ -25,5 +28,19 @@ class Prediction(
 ) {
     val getMember: Long
         get() = memberId
+
+    fun addTitle(titles: List<String>) {
+        titles.forEach { title ->
+            val newTitle = Title(title, this)
+            this.titles.add(newTitle)
+        }
+    }
+
+    fun addContent(contents: List<String>) {
+        contents.forEach { content ->
+            val newContent = Content(content, this)
+            this.contents.add(newContent)
+        }
+    }
 
 }

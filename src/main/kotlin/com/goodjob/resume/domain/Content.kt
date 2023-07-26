@@ -7,16 +7,16 @@ class Content(
     @Lob
     @Column(columnDefinition = "TEXT") var content: String = "",
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prediction_id")
+    val prediction: Prediction,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Long = 0L
 ) {
     companion object {
-        @JvmStatic
-        fun of(title: String): Content {
-            val instance = Content()
-            instance.content = title
-            return instance
-        }
+        fun of(content: String, prediction: Prediction) =
+            Content(content, prediction)
     }
 }

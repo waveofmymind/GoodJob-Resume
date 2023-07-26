@@ -12,13 +12,10 @@ data class WhatGeneratedQuestionResponse(
         val titleList = predictionResponse.map { it.question }
         val contentList = predictionResponse.map { it.bestAnswer }
 
-        val titles = Titles.of(titleList)
-        val contents = Contents.of(contentList)
-
         return RegisterPredictionCommand(
             memberId = memberId,
-            titles = titles,
-            contents = contents,
+            titles = titleList,
+            contents = contentList,
             serviceType = ServiceType.EXPECTED_QUESTION
         )
     }
@@ -31,13 +28,10 @@ data class WhatGeneratedImproveResponse(
         val titleList = improvementResponse.map { it.improvementPoint }
         val contentList = improvementResponse.map { it.advice }
 
-        val titles = Titles.of(titleList)
-        val contents = Contents.of(contentList)
-
         return RegisterPredictionCommand(
             memberId = memberId,
-            titles = titles,
-            contents = contents,
+            titles = titleList,
+            contents = contentList,
             serviceType = ServiceType.EXPECTED_ADVICE
         )
     }

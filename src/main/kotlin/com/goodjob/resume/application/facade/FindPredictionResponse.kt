@@ -18,8 +18,8 @@ data class FindPredictionResponse(
         fun toResponse(prediction: Prediction): FindPredictionResponse {
             return FindPredictionResponse(
                 id = prediction.id,
-                titles = prediction.titles,
-                contents = prediction.contents,
+                titles = Titles(prediction.titles),
+                contents = Contents(prediction.contents),
                 serviceType = prediction.serviceType,
                 createdDate = prediction.createdDate
             )

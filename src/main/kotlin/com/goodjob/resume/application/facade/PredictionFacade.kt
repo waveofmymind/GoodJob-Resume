@@ -20,7 +20,10 @@ class PredictionFacade(
 
     @Transactional
     override fun registerPrediction(command: RegisterPredictionCommand) {
-        registerPredictionPort.registerPrediction(command.toEntity())
+        val prediction = command.toEntity()
+        prediction.addTitle(command.titles)
+        prediction.addContent(command.contents)
+        registerPredictionPort.registerPrediction(prediction)
     }
 
     override fun findPrediction(id: Long): FindPredictionResponse {

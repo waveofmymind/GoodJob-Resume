@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: ENC(L4M81PpKjR8+13/GdDsUcU5flmZEok5OKv+frWH2c0pYEu6HPXNwHFsiA9A6Evi+9f9DqkiKyEfD/I7oWNlg+2f2mvFR8FmeBEwtFs5YFUOkvUxAd/7WwdR2mWXv+SCr+pnKvyWr5zzEYtYCxlrncGe7AJe+8G1K)
+    url: ENC(5oXuLDSPDNuWH/RkhfQwBr8xm4hhVZm65c83QiVFkAASNaSAYGqemGSp3fRotSkyj3iFuz92tVioxzWDkyV3VPbEr9dxx++J0TZwBvD6DGWidYfwlLT8okIw8YswTxo6PBiXx2PTFGnAMC7/PViAymcCULaLuupMB+Q97vP5vsI=)
     username: ENC(jUcwvKowWsVxwkexQM8BRA==)
     password: ENC(7CCqB+eaWByDHvBg02UQras7mBrA4GW8)
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 
   kafka:
