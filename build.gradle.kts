@@ -26,6 +26,7 @@ allOpen {
     annotation("jakarta.persistence.MappedSuperclass")
     annotation("jakarta.persistence.Embeddable")
 }
+extra["springCloudVersion"] = "2022.0.3"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -42,6 +43,14 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
     runtimeOnly("com.mysql:mysql-connector-j")
 
+    // actuator
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+
+    // spring cloud config
+    implementation("org.springframework.cloud:spring-cloud-starter-config")
+
+
     // jasypt
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
 
@@ -52,6 +61,12 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.5")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.kafka:spring-kafka-test")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+    }
 }
 
 tasks.withType<KotlinCompile> {
