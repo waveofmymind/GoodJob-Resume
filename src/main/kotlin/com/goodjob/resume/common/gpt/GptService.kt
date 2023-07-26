@@ -11,6 +11,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.goodjob.resume.common.config.GptConfig
 import com.goodjob.resume.common.error.JsonBindingException
+import com.goodjob.resume.common.error.PredictionCreateException
+import com.goodjob.resume.common.error.ThreadMalfunctionException
 import com.theokanning.openai.completion.chat.ChatCompletionRequest
 import com.theokanning.openai.completion.chat.ChatCompletionResult
 import com.theokanning.openai.completion.chat.ChatMessage
@@ -29,55 +31,46 @@ class GptService(
     private val executorService = Executors.newFixedThreadPool(1)
     private val log = LoggerFactory.getLogger(GptService::class.java)
 
-    fun generateQuestionMessage(job: String, career: String, resumeType: String, content: String): List<ChatMessage> {
-        val prompt = Prompt.generateQuestionPrompt(job, career, resumeType)
-        log.debug("생성된 프롬프트 : {}", prompt)
-
-        val systemMessage = ChatMessage(ChatMessageRole.SYSTEM.value(), prompt)
-        val userMessage = ChatMessage(ChatMessageRole.USER.value(), content)
-
-        return listOf(systemMessage, userMessage)
-    }
-
-    fun generateAdviceMessage(job: String, career: String, resumeType: String, content: String): List<ChatMessage> {
-        val prompt = Prompt.generateAdvicePrompt(job, career, resumeType)
-        log.debug("생성된 프롬프트 : {}", prompt)
-
-        val systemMessage = ChatMessage(ChatMessageRole.SYSTEM.value(), prompt)
-        val userMessage = ChatMessage(ChatMessageRole.USER.value(), content)
-
-        return listOf(systemMessage, userMessage)
-    }
-
-    @Async
-    fun createdExpectedQuestionsAndAnswer(
+    fun createdExpectedQuestionAndAnswer(
         job: String,
         career: String,
         resumeData: List<ResumeRequest>
-    ): CompletableFuture<WhatGeneratedQuestionResponse> {
-        val futures = resumeData.map { data ->
-            CompletableFuture.supplyAsync({
-                val chatMessages = generateQuestionMessage(job, career, data.resumeType, data.content)
+    ): WhatGeneratedQuestionResponse {
 
-                runCatching {
-                    val chatCompletionResult = chatCompletionGenerator.generate(chatMessages)
-                    val futureResult = chatCompletionResult.choices[0].message.content
+        val response: MutableList<CompletableFuture<WhatGeneratedQuestionResponse>> = mutableListOf()
 
-                    objectMapper.readValue<WhatGeneratedQuestionResponse>(futureResult)
-                }.getOrElse {
-                    log.error(it.message, it)
-                    throw JsonBindingException()
-                }
-            }, executorService)
+        resumeData.forEach {
+            val future: CompletableFuture<WhatGeneratedQuestionResponse> = CompletableFuture.supplyAsync {
+                PromptCreator.generateQuestionMessage(job, career, it.resumeType, it.content)
+                    .let { chatMessages ->
+                        runCatching {
+                            val chatCompletionResult = chatCompletionGenerator.generate(chatMessages)
+                            val futureResult = chatCompletionResult.choices[0].message.content
+
+                            objectMapper.readValue<WhatGeneratedQuestionResponse>(futureResult)
+                        }.getOrElse {
+                            log.error(it.message)
+                            throw JsonBindingException()
+                        }
+                    }
+            }
+            response.add(future)
         }
 
-        CompletableFuture.allOf(*futures.toTypedArray()).join()
+        val allFutures: CompletableFuture<Void> = CompletableFuture.allOf(*response.toTypedArray())
+        runCatching {
+            allFutures.get()
+        }.getOrElse {
+            log.error(it.message, it)
+            throw ThreadMalfunctionException()
+        }
 
-        val results = futures.map { it.join() }
-        val combinedPredictionResponse = results.flatMap { it.predictionResponse }
-        val result = WhatGeneratedQuestionResponse(combinedPredictionResponse)
-
-        return CompletableFuture.completedFuture(result)
+        return response.map { it.join() }
+            .filter { it.predictionResponse.isNotEmpty() }
+            .fold(WhatGeneratedQuestionResponse(mutableListOf())) { acc, content ->
+                acc.predictionResponse.addAll(content.predictionResponse)
+                acc
+            }
     }
 
     @Async
@@ -85,29 +78,40 @@ class GptService(
         job: String,
         career: String,
         resumeData: List<ResumeRequest>
-    ): CompletableFuture<WhatGeneratedImproveResponse> {
-        val futures = resumeData.map { data ->
-            CompletableFuture.supplyAsync({
-                val chatMessages = generateAdviceMessage(job, career, data.resumeType, data.content)
+    ): WhatGeneratedImproveResponse {
+        val response: MutableList<CompletableFuture<WhatGeneratedImproveResponse>> = mutableListOf()
 
-                runCatching {
-                    val chatCompletionResult = chatCompletionGenerator.generate(chatMessages)
-                    val futureResult = chatCompletionResult.choices[0].message.content
+        resumeData.forEach {
+            val future: CompletableFuture<WhatGeneratedImproveResponse> = CompletableFuture.supplyAsync {
+                PromptCreator.generateAdviceMessage(job, career, it.resumeType, it.content)
+                    .let { chatMessages ->
+                        runCatching {
+                            val chatCompletionResult = chatCompletionGenerator.generate(chatMessages)
+                            val futureResult = chatCompletionResult.choices[0].message.content
 
-                    objectMapper.readValue<WhatGeneratedImproveResponse>(futureResult)
-                }.getOrElse {
-                    log.error(it.message)
-                    throw JsonBindingException()
-                }
-            }, executorService)
+                            objectMapper.readValue<WhatGeneratedImproveResponse>(futureResult)
+                        }.getOrElse {
+                            log.error(it.message)
+                            throw JsonBindingException()
+                        }
+                    }
+            }
+            response.add(future)
         }
 
-        CompletableFuture.allOf(*futures.toTypedArray()).join()
+        val allFutures: CompletableFuture<Void> = CompletableFuture.allOf(*response.toTypedArray())
+        runCatching {
+            allFutures.get()
+        }.getOrElse {
+            log.error(it.message, it)
+            throw ThreadMalfunctionException()
+        }
 
-        val results = futures.map { it.join() }
-        val combinedImprovementResponses = results.flatMap { it.improvementResponse }
-        val result = WhatGeneratedImproveResponse(combinedImprovementResponses)
-
-        return CompletableFuture.completedFuture(result)
+        return response.map { it.join() }
+            .filter { it.improvementResponse.isNotEmpty() }
+            .fold(WhatGeneratedImproveResponse(mutableListOf())) { acc, content ->
+                acc.improvementResponse.addAll(content.improvementResponse)
+                acc
+            }
     }
 }
