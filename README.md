@@ -26,3 +26,7 @@
 ## 플로우 차트
 
 ![스크린샷 2023-07-21 오후 10 02 04](https://github.com/waveofmymind/GoodJob-Resume/assets/93868431/38da359a-91a5-4543-a643-474db0a20263)
+
+## 테스트 결과
+
+![스크린샷 2023-07-27 오후 9 47 14](https://github.com/waveofmymind/GoodJob-Resume/assets/93868431/c6ab055c-6929-4277-8661-27980dc83cc2)
