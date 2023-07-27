@@ -1,5 +1,6 @@
 package com.goodjob.resume.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.*
 
 @Entity
@@ -9,6 +10,7 @@ class Content(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prediction_id")
+    @JsonIgnore
     val prediction: Prediction,
 
     @Id
