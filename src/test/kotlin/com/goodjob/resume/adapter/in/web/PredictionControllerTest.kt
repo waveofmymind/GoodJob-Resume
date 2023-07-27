@@ -17,10 +17,7 @@ class PredictionControllerTest : DescribeSpec({
         context("GET /predictions/{predictionId} 경로로 요청이 들어 왔을 때") {
             it("id에 맞는 예측을 반환한다") {
                 val predictionId = 123L
-                val expectedResponse = PredictionSnippets.findPredictionResponse(
-                    listOf("title1", "title2"),
-                    listOf("content1", "content2")
-                )
+                val expectedResponse = PredictionSnippets.findPredictionResponse()
                 every { mockFindPredictionUseCase.findPrediction(predictionId) } returns expectedResponse
 
                 val response = controller.findPrediction(predictionId)
@@ -34,10 +31,7 @@ class PredictionControllerTest : DescribeSpec({
             it("멤버 id에 맞는 예측 목록을 반환한다") {
                 val memberId = 456L
                 val expectedResponses = listOf(
-                    PredictionSnippets.findPredictionResponse(
-                        listOf("title1", "title2"),
-                        listOf("content1", "content2")
-                    )
+                    PredictionSnippets.findPredictionResponse()
                 )
 
                 every { mockFindPredictionUseCase.findPredictions(memberId) } returns expectedResponses
