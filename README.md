@@ -11,3 +11,4 @@
 - Jasypt
 - Spring Cloud Config
 - Spring Cloud OpenFeign
+- Kotest, Mockk
