@@ -24,3 +24,5 @@
 {memberId}에 해당하는 예측 결과를 조회합니다.(복수)
 
 ## 플로우 차트
+
+![스크린샷 2023-07-21 오후 10 02 04](https://github.com/waveofmymind/GoodJob-Resume/assets/93868431/38da359a-91a5-4543-a643-474db0a20263)
