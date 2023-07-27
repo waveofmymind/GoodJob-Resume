@@ -3,7 +3,7 @@ package com.goodjob.resume.common.gpt
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 
-class PromptCreatorTest : BehaviorSpec({
+class PromptCreatorTest: BehaviorSpec({
 
     Given("AI 서비스를 사용할 때") {
         val job = "Backend Developer"

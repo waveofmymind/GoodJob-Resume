@@ -5,7 +5,6 @@ import com.goodjob.resume.application.out.FindPredictionPort
 import com.goodjob.resume.application.out.RegisterPredictionPort
 import com.goodjob.resume.common.PredictionSnippets
 import com.goodjob.resume.common.error.InvalidRequestException
-import com.goodjob.resume.domain.ServiceType
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.BehaviorSpec
 import io.mockk.every

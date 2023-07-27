@@ -16,7 +16,6 @@ class PredictionTest : StringSpec({
         prediction.addTitle(titleList)
         prediction.addContent(contentList)
 
-
         // then
         prediction.getMember shouldBe memberId
         prediction.titles[0].title shouldBe titleList[0]
