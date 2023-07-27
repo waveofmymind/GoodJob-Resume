@@ -18,7 +18,7 @@ class PredictionController(
     @GetMapping("/{predictionId}")
     fun findPrediction(@PathVariable("predictionId") predictionId: Long) = findPredictionUseCase.findPrediction(predictionId)
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/{memberId}/result")
     fun findPredictions(@PathVariable("memberId") memberId: Long) = findPredictionUseCase.findPredictions(memberId)
 
     @DeleteMapping("/{predictionId}")
