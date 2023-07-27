@@ -12,3 +12,15 @@
 - Spring Cloud Config
 - Spring Cloud OpenFeign
 - Kotest, Mockk
+
+## API 명세
+
+### /predictions/{predictionId}
+
+{predictionId}에 해당하는 예측 결과를 조회합니다.
+
+### /predictions/{memberId}
+
+{memberId}에 해당하는 예측 결과를 조회합니다.(복수)
+
+## 플로우 차트
