@@ -19,7 +19,7 @@
 
 {predictionId}에 해당하는 예측 결과를 조회합니다.
 
-### /predictions/{memberId}
+### /members/{memberId}/predictions
 
 {memberId}에 해당하는 예측 결과를 조회합니다.(복수)
 
