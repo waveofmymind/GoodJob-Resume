@@ -23,9 +23,9 @@
 
 {memberId}에 해당하는 예측 결과를 조회합니다.(복수)
 
-## 플로우 차트
+## 비즈니스 로직 플로우 차트
 
-![스크린샷 2023-07-21 오후 10 02 04](https://github.com/waveofmymind/GoodJob-Resume/assets/93868431/38da359a-91a5-4543-a643-474db0a20263)
+![스크린샷 2023-07-31 오후 7 24 50](https://github.com/waveofmymind/GoodJob-Resume/assets/93868431/35292be2-f5f6-4a8a-87d8-05da9c2decb6)
 
 ## 테스트 결과
 
